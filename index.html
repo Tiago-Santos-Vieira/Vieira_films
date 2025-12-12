@@ -1,206 +1,226 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiago Vieira | Videomaker</title>
+    <title>Tiago Vieira | Videomaker & Web Designer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap');
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #0a0a0a;
+            background-color: #050505;
             color: #e5e5e5;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Smooth Scroll Global */
-        html {
-            scroll-behavior: smooth;
+        /* --- BACKGROUND ANIMADO --- */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-color: #050505;
+            overflow: hidden;
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out alternate;
         }
 
-        /* Custom Scrollbar Global */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #8A2BE2; /* Roxo vibrante */
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6A1DAD; /* Roxo mais escuro no hover */
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: #4c1d95; animation-duration: 20s; }
+        .blob-2 { bottom: -20%; right: -10%; width: 70vw; height: 70vw; background: #8A2BE2; animation-delay: -5s; animation-duration: 25s; }
+        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: #2e1065; animation-delay: -10s; opacity: 0.2; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 50px) scale(1.1); }
+            100% { transform: translate(-20px, -30px) scale(0.9); }
         }
 
-        /* Specific styles for the Portfolio Slider */
-        #portfolio-slider {
-            scroll-behavior: auto; 
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        #portfolio-slider::-webkit-scrollbar {
-            height: 12px;
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8A2BE2; }
+
+        /* --- Styles --- */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-        #portfolio-slider::-webkit-scrollbar-track {
-            background: #1a1a1a;
-            border-radius: 6px;
-            margin: 0 20px;
-        }
-        #portfolio-slider::-webkit-scrollbar-thumb {
-            background: #8A2BE2;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 2px solid #1a1a1a;
-        }
-        #portfolio-slider::-webkit-scrollbar-thumb:hover {
-            background: #9d4edd;
+        .glass-card:hover {
+            border-color: rgba(138, 43, 226, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px -10px rgba(138, 43, 226, 0.2);
         }
 
-        .text-primary-color {
-            color: #8A2BE2; /* Roxo vibrante */
+        .btn-glow {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .bg-primary-color {
-            background-color: #8A2BE2; /* Roxo vibrante */
-        }
-        .border-primary-color {
-            border-color: #8A2BE2; /* Roxo vibrante */
-        }
-        .hover-text-primary-color:hover {
-            color: #8A2BE2; /* Roxo vibrante no hover */
-        }
-        .hover-bg-primary-color:hover {
-            background-color: #8A2BE2; /* Roxo vibrante no hover */
-            color: white; /* Texto branco para contraste no hover */
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+            transform: translateY(-2px);
         }
 
-        /* Utility class for cursor grabbing */
-        .cursor-grab {
-            cursor: grab;
-        }
-        .cursor-grabbing {
-            cursor: grabbing;
-        }
+        .slider-container { scroll-behavior: auto; }
+        .slider-container::-webkit-scrollbar { height: 6px; }
+        .slider-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); margin: 0 10%; border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb:hover { background: #8A2BE2; }
 
-        /* Play Button Animation */
-        .play-btn-pulse {
-            animation: pulse-shadow 2s infinite;
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .play-btn-pulse { animation: pulse-shadow 2s infinite; }
         @keyframes pulse-shadow {
             0% { box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(138, 43, 226, 0); }
+            70% { box-shadow: 0 0 0 15px rgba(138, 43, 226, 0); }
             100% { box-shadow: 0 0 0 0 rgba(138, 43, 226, 0); }
         }
+
+        .cursor-grab { cursor: grab; }
+        .cursor-grabbing { cursor: grabbing; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-purple-900 selection:text-white">
+
+    <div class="animated-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-zinc-800 transition-all duration-300" id="navbar">
+    <nav class="fixed w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/5 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <div class="flex-shrink-0">
-                    <!-- Aumentado de h-10 para h-16 para maior destaque -->
-                    <a href="#" class="block h-20">
-                        <img src="logo.png" alt="Tiago Vieira Videomaker Logo" class="h-full w-auto object-contain">
+                <div class="flex-shrink-0 transition-transform duration-300 hover:scale-105">
+                    <a href="#" class="block h-16">
+                        <img src="logo.png" alt="Tiago Vieira Logo" class="h-full w-auto object-contain drop-shadow-[0_0_10px_rgba(138,43,226,0.4)]">
                     </a>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#home" class="hover-text-primary-color px-3 py-2 rounded-md text-sm font-medium transition-colors">Início</a>
-                        <a href="#sobre" class="hover-text-primary-color px-3 py-2 rounded-md text-sm font-medium transition-colors">Sobre Mim</a>
-                        <a href="#servicos" class="hover-text-primary-color px-3 py-2 rounded-md text-sm font-medium transition-colors">Serviços</a>
-                        <a href="#portfolio" class="hover-text-primary-color px-3 py-2 rounded-md text-sm font-medium transition-colors">Portfólio</a>
-                        <a href="#contato" class="bg-white text-black hover:bg-primary-color hover:text-white px-4 py-2 rounded-full text-sm font-bold transition-all">Contato</a>
+                        <a href="#home" class="text-gray-300 hover:text-[#8A2BE2] px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-white/5">Início</a>
+                        <a href="#sobre" class="text-gray-300 hover:text-[#8A2BE2] px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-white/5">Sobre Mim</a>
+                        <a href="#servicos" class="text-gray-300 hover:text-[#8A2BE2] px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-white/5">Serviços</a>
+                        <a href="#portfolio" class="text-gray-300 hover:text-[#8A2BE2] px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-white/5">Portfólio</a>
+                        <a href="#contato" class="bg-white text-black hover:bg-[#8A2BE2] hover:text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-purple-500/30">Contato</a>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
-                    <button type="button" onclick="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                    <button type="button" onclick="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none transition-colors">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu -->
-        <div class="hidden md:hidden bg-zinc-900" id="mobile-menu">
+        <div class="hidden md:hidden bg-zinc-950/95 backdrop-blur-xl border-b border-white/10" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="hover-text-primary-color block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Início</a>
-                <a href="#sobre" class="hover-text-primary-color block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Sobre Mim</a>
-                <a href="#servicos" class="hover-text-primary-color block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Serviços</a>
-                <a href="#portfolio" class="hover-text-primary-color block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Portfólio</a>
-                <a href="#contato" class="hover-text-primary-color block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Contato</a>
+                <a href="#home" class="text-gray-300 hover:text-[#8A2BE2] block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Início</a>
+                <a href="#sobre" class="text-gray-300 hover:text-[#8A2BE2] block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Sobre Mim</a>
+                <a href="#servicos" class="text-gray-300 hover:text-[#8A2BE2] block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-[#8A2BE2] block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMenu()">Portfólio</a>
+                <a href="#contato" class="text-[#8A2BE2] font-bold block px-3 py-2 rounded-md text-base" onclick="toggleMenu()">Contato</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
-        <!-- Background Image with Overlay -->
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1579167728798-11d378925947?q=80&w=2074&auto=format&fit=crop" 
                  alt="Camera Background" 
-                 class="w-full h-full object-cover opacity-40">
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-[#0a0a0a]"></div>
+                 class="w-full h-full object-cover opacity-20 scale-105 animate-[pulse_10s_ease-in-out_infinite]">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-[#050505]"></div>
         </div>
 
-        <div class="relative z-10 text-center px-4">
-            <p class="text-primary-color tracking-[0.3em] text-sm md:text-base uppercase mb-4 animate-pulse">Tiago Vieira Videomaker</p>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">
+        <div class="relative z-10 text-center px-4 reveal active">
+            <div class="inline-block mb-6 px-5 py-2 rounded-full border border-purple-500/30 bg-purple-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(138,43,226,0.2)]">
+                <p class="text-[#8A2BE2] tracking-[0.25em] text-xs md:text-sm font-bold uppercase drop-shadow-md">Tiago Vieira Videomaker</p>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white leading-tight drop-shadow-2xl">
                 Vamos elevar o nível <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#8A2BE2]">do seu negócio</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-300 to-[#8A2BE2] animate-pulse">do seu negócio</span>
             </h1>
-            <p class="max-w-2xl mx-auto text-gray-300 text-lg mb-10">
-                Transformando ideias em narrativas visuais impactantes. Da captação à pós-produção.
+            <p class="max-w-2xl mx-auto text-gray-300 text-lg md:text-xl mb-10 font-light drop-shadow-md">
+                Produção Audiovisual & Criação de Landing Pages de Alta Conversão.
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#portfolio" class="px-8 py-4 border border-primary-color text-primary-color hover:bg-primary-color hover:text-white font-bold uppercase tracking-wide transition-all rounded-sm">
-                    Ver Trabalhos
+            <div class="flex flex-col md:flex-row gap-5 justify-center">
+                <a href="#portfolio" class="btn-glow px-8 py-4 border border-[#8A2BE2] text-[#8A2BE2] hover:bg-[#8A2BE2] hover:text-white font-bold uppercase tracking-wide rounded-sm backdrop-blur-md">
+                    Ver Portfólio
                 </a>
-                <a href="#contato" class="px-8 py-4 bg-white text-black hover:bg-gray-200 font-bold uppercase tracking-wide transition-all rounded-sm">
+                <a href="#contato" class="btn-glow px-8 py-4 bg-white text-black hover:bg-gray-200 font-bold uppercase tracking-wide rounded-sm shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                     Orçamento
                 </a>
             </div>
         </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <i class="fas fa-chevron-down text-white text-xl"></i>
+        </div>
     </section>
 
     <!-- About Section -->
-    <section id="sobre" class="py-20 bg-[#0a0a0a]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="relative">
-                    <div class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-primary-color z-0"></div>
-                    <img src="IMG_3249.JPG" 
-                         alt="Tiago Vieira" 
-                         class="relative z-10 w-full h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm shadow-2xl">
-                    <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-primary-color z-0"></div>
+    <section id="sobre" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal group">
+                    <div class="absolute -top-6 -left-6 w-32 h-32 border-t-2 border-l-2 border-[#8A2BE2] z-0 transition-all duration-500 group-hover:-top-8 group-hover:-left-8 opacity-70"></div>
+                    <div class="relative rounded-lg overflow-hidden shadow-2xl glass-card border-0">
+                        <div class="absolute inset-0 bg-[#8A2BE2] opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-20"></div>
+                        <img src="IMG_3249.JPG" 
+                             alt="Tiago Vieira" 
+                             class="relative z-10 w-full h-[600px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 border-b-2 border-r-2 border-[#8A2BE2] z-0 transition-all duration-500 group-hover:-bottom-8 group-hover:-right-8 opacity-70"></div>
                 </div>
-                <div>
-                    <h2 class="text-4xl font-bold mb-6">Quem é <span class="text-primary-color">Tiago Vieira?</span></h2>
-                    <p class="text-gray-400 mb-6 leading-relaxed">
-                        Sou um videomaker apaixonado por capturar a essência de cada momento. Com anos de experiência no mercado audiovisual, meu objetivo não é apenas gravar vídeos, mas criar obras que transmitam emoção e profissionalismo.
+                
+                <div class="reveal delay-100">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8">Quem é <span class="text-[#8A2BE2]">Tiago Vieira?</span></h2>
+                    <p class="text-gray-300 mb-6 leading-relaxed text-lg font-light">
+                        Sou especialista em elevar a presença digital de marcas e profissionais. Combino a arte da produção audiovisual com a estratégia de web design para criar ecossistemas digitais completos.
                     </p>
-                    <p class="text-gray-400 mb-8 leading-relaxed">
-                        Especializei-me em unir técnica apurada com uma visão artística única, garantindo que seu projeto — seja um comercial, evento ou conteúdo para redes sociais — se destaque na multidão.
+                    <p class="text-gray-300 mb-10 leading-relaxed text-lg font-light">
+                        Seja através de um vídeo cinematográfico ou de uma Landing Page otimizada para vendas, meu foco é entregar resultados reais e profissionalismo para o seu negócio.
                     </p>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-film text-primary-color text-2xl"></i>
-                            <span class="font-semibold">Produção 4K</span>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#8A2BE2]/50 hover:bg-white/10 transition-all backdrop-blur-sm">
+                            <i class="fas fa-film text-[#8A2BE2] text-3xl drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]"></i>
+                            <span class="font-semibold text-white">Vídeos 4K</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-magic text-primary-color text-2xl"></i>
-                            <span class="font-semibold">Edição Criativa</span>
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#8A2BE2]/50 hover:bg-white/10 transition-all backdrop-blur-sm">
+                            <i class="fas fa-laptop-code text-[#8A2BE2] text-3xl drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]"></i>
+                            <span class="font-semibold text-white">Web Design</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-clock text-primary-color text-2xl"></i>
-                            <span class="font-semibold">Entrega Rápida</span>
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#8A2BE2]/50 hover:bg-white/10 transition-all backdrop-blur-sm">
+                            <i class="fas fa-clock text-[#8A2BE2] text-3xl drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]"></i>
+                            <span class="font-semibold text-white">Entrega Rápida</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-bullseye text-primary-color text-2xl"></i>
-                            <span class="font-semibold">Foco em Resultado</span>
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#8A2BE2]/50 hover:bg-white/10 transition-all backdrop-blur-sm">
+                            <i class="fas fa-bullseye text-[#8A2BE2] text-3xl drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]"></i>
+                            <span class="font-semibold text-white">Alta Conversão</span>
                         </div>
                     </div>
                 </div>
@@ -209,45 +229,50 @@
     </section>
 
     <!-- Services Section -->
-    <section id="servicos" class="py-20 bg-zinc-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="text-primary-color font-bold tracking-wider uppercase text-sm">O que eu faço</span>
-                <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white">Meus Serviços</h2>
-                <div class="w-20 h-1 bg-primary-color mx-auto mt-4"></div>
+    <section id="servicos" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 reveal">
+                <span class="text-[#8A2BE2] font-bold tracking-widest uppercase text-sm">Soluções Digitais</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-3 text-white">Meus Serviços</h2>
+                <div class="w-24 h-1.5 bg-[#8A2BE2] mx-auto mt-6 rounded-full shadow-[0_0_10px_#8A2BE2]"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Service 1: Cobertura de Eventos -->
-                <div class="bg-[#0a0a0a] p-8 border border-zinc-800 hover:border-primary-color transition-all duration-300 group">
-                    <div class="w-14 h-14 bg-zinc-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary-color transition-colors">
-                        <i class="fas fa-camera text-2xl text-white group-hover:text-black"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Service Items -->
+                <div class="glass-card p-10 rounded-2xl group reveal delay-100">
+                    <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#8A2BE2] group-hover:text-white group-hover:border-[#8A2BE2] transition-all duration-300 shadow-lg text-[#8A2BE2]">
+                        <i class="fas fa-laptop-code text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Cobertura de Eventos</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Registro cinematográfico dos seus melhores momentos. Casamentos, festas, shows e eventos corporativos com edição dinâmica e emocionante.
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#8A2BE2] transition-colors">Criação de Landing Pages</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">
+                        Páginas de alta conversão, rápidas e otimizadas para mobile. Desenvolvo o site ideal para capturar leads e vender produtos.
                     </p>
                 </div>
-
-                <!-- Service 2: Vídeos Institucionais -->
-                <div class="bg-[#0a0a0a] p-8 border border-zinc-800 hover:border-primary-color transition-all duration-300 group">
-                    <div class="w-14 h-14 bg-zinc-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary-color transition-colors">
-                        <i class="fas fa-building text-2xl text-white group-hover:text-black"></i>
+                <div class="glass-card p-10 rounded-2xl group reveal delay-200">
+                    <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#8A2BE2] group-hover:text-white group-hover:border-[#8A2BE2] transition-all duration-300 shadow-lg text-[#8A2BE2]">
+                        <i class="fas fa-camera text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Vídeos Institucionais</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Fortaleça a marca da sua empresa. Vídeos de apresentação, manifestos, depoimentos e endomarketing que transmitem autoridade e profissionalismo.
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#8A2BE2] transition-colors">Cobertura de Eventos</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">
+                        Registro cinematográfico dos seus melhores momentos. Casamentos, festas, shows e eventos corporativos.
                     </p>
                 </div>
-
-                <!-- Service 3: Social Media -->
-                <div class="bg-[#0a0a0a] p-8 border border-zinc-800 hover:border-primary-color transition-all duration-300 group">
-                    <div class="w-14 h-14 bg-zinc-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary-color transition-colors">
-                        <i class="fas fa-mobile-alt text-2xl text-white group-hover:text-black"></i>
+                <div class="glass-card p-10 rounded-2xl group reveal delay-300">
+                    <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#8A2BE2] group-hover:text-white group-hover:border-[#8A2BE2] transition-all duration-300 shadow-lg text-[#8A2BE2]">
+                        <i class="fas fa-building text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Social Media</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Produção estratégica de vídeos verticais (Reels/TikTok) e conteúdo para redes sociais focado em aumentar seu engajamento e conexão com o público.
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#8A2BE2] transition-colors">Vídeos Institucionais</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">
+                        Fortaleça a marca da sua empresa. Vídeos de apresentação, manifestos e depoimentos que transmitem autoridade.
+                    </p>
+                </div>
+                <div class="glass-card p-10 rounded-2xl group reveal delay-400">
+                    <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#8A2BE2] group-hover:text-white group-hover:border-[#8A2BE2] transition-all duration-300 shadow-lg text-[#8A2BE2]">
+                        <i class="fas fa-mobile-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#8A2BE2] transition-colors">Social Media</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">
+                        Produção estratégica de vídeos verticais (Reels/TikTok) e conteúdo para redes sociais focado em engajamento.
                     </p>
                 </div>
             </div>
@@ -255,124 +280,181 @@
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 bg-[#0a0a0a]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-8">
+    <section id="portfolio" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- ====== PARTE 1: WEBSITES ====== -->
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10">
                 <div>
-                    <span class="text-primary-color font-bold tracking-wider uppercase text-sm">Trabalhos Recentes</span>
-                    <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white">Portfólio Selecionado</h2>
-                    <p class="text-gray-500 text-sm mt-2 md:hidden"><i class="fas fa-hand-pointer mr-1"></i> Arraste para o lado</p>
+                    <span class="text-[#8A2BE2] font-bold tracking-wider uppercase text-sm">Web Design</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white">Websites & Landing Pages</h2>
                 </div>
-                
-                <!-- Navigation Buttons -->
                 <div class="flex space-x-3 mt-4 md:mt-0">
-                    <button onclick="scrollPortfolio('left')" class="w-12 h-12 rounded-full border border-zinc-700 bg-zinc-900 text-white flex items-center justify-center hover:bg-primary-color hover:border-primary-color transition-all focus:outline-none">
+                    <button onclick="scrollSlider('slider-sites', 'left')" class="w-12 h-12 rounded-full border border-zinc-700 bg-white/5 text-white flex items-center justify-center hover:bg-[#8A2BE2] hover:border-[#8A2BE2] transition-all focus:outline-none shadow-md backdrop-blur-md">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button onclick="scrollPortfolio('right')" class="w-12 h-12 rounded-full border border-zinc-700 bg-zinc-900 text-white flex items-center justify-center hover:bg-primary-color hover:border-primary-color transition-all focus:outline-none">
+                    <button onclick="scrollSlider('slider-sites', 'right')" class="w-12 h-12 rounded-full border border-zinc-700 bg-white/5 text-white flex items-center justify-center hover:bg-[#8A2BE2] hover:border-[#8A2BE2] transition-all focus:outline-none shadow-md backdrop-blur-md">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Slider Container -->
-            <!-- Use 'youtube-nocookie' e a lógica de clique para carregar -->
-            <div id="portfolio-slider" class="flex overflow-x-auto space-x-6 pb-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing select-none">
+            <!-- Slider Container Sites -->
+            <div id="slider-sites" class="slider-container flex overflow-x-auto space-x-6 pb-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing select-none mb-24">
                 
-                <!-- Item 1: Video UqOTLXkvsak -->
-                <div class="portfolio-item relative group overflow-hidden rounded-sm min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900 border border-zinc-800"
+                <!-- Site 1: Personal Trainer -->
+                <div class="portfolio-item glass-card relative group rounded-2xl min-w-[85vw] md:min-w-[320px] snap-center shrink-0 h-[400px] flex flex-col items-center justify-center p-8 text-center border border-white/5 hover:border-[#8A2BE2]/50 transition-all hover:-translate-y-2">
+                    <div class="w-24 h-24 bg-zinc-900 rounded-full flex items-center justify-center mb-6 text-[#8A2BE2] group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(138,43,226,0.15)] border border-white/5">
+                        <i class="fas fa-dumbbell text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Página de Gustavo Carvalho</h3>
+                    <p class="text-gray-400 text-sm mb-8 uppercase tracking-wider font-semibold">Personal Trainer</p>
+                    <a href="https://gustavocarvalhotrainer.com/" target="_blank" class="px-8 py-3 bg-[#8A2BE2] text-white font-bold rounded-full hover:bg-purple-600 transition-all shadow-lg hover:shadow-purple-500/40 transform hover:scale-105">
+                        Visitar Página
+                    </a>
+                </div>
+
+                <!-- Site 2: Advogado -->
+                <div class="portfolio-item glass-card relative group rounded-2xl min-w-[85vw] md:min-w-[320px] snap-center shrink-0 h-[400px] flex flex-col items-center justify-center p-8 text-center border border-white/5 hover:border-[#8A2BE2]/50 transition-all hover:-translate-y-2">
+                    <div class="w-24 h-24 bg-zinc-900 rounded-full flex items-center justify-center mb-6 text-[#8A2BE2] group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(138,43,226,0.15)] border border-white/5">
+                        <i class="fas fa-scale-balanced text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Página de Filipe Serapião</h3>
+                    <p class="text-gray-400 text-sm mb-8 uppercase tracking-wider font-semibold">Advocacia</p>
+                    <a href="https://felipeserapiaoadv.vercel.app/" target="_blank" class="px-8 py-3 bg-[#8A2BE2] text-white font-bold rounded-full hover:bg-purple-600 transition-all shadow-lg hover:shadow-purple-500/40 transform hover:scale-105">
+                        Visitar Página
+                    </a>
+                </div>
+
+                <!-- Site 3: Nutricionista -->
+                <div class="portfolio-item glass-card relative group rounded-2xl min-w-[85vw] md:min-w-[320px] snap-center shrink-0 h-[400px] flex flex-col items-center justify-center p-8 text-center border border-white/5 hover:border-[#8A2BE2]/50 transition-all hover:-translate-y-2">
+                    <div class="w-24 h-24 bg-zinc-900 rounded-full flex items-center justify-center mb-6 text-[#8A2BE2] group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(138,43,226,0.15)] border border-white/5">
+                        <i class="fas fa-apple-whole text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Página de Daniel Vieira</h3>
+                    <p class="text-gray-400 text-sm mb-8 uppercase tracking-wider font-semibold">Nutricionista</p>
+                    <a href="https://danielvieiranutri.vercel.app/" target="_blank" class="px-8 py-3 bg-[#8A2BE2] text-white font-bold rounded-full hover:bg-purple-600 transition-all shadow-lg hover:shadow-purple-500/40 transform hover:scale-105">
+                        Visitar Página
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== PARTE 2: VÍDEOS ====== -->
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10">
+                <div>
+                    <span class="text-[#8A2BE2] font-bold tracking-wider uppercase text-sm">Videomaker</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white">Produções Audiovisuais</h2>
+                    <p class="text-gray-500 text-sm mt-2 md:hidden"><i class="fas fa-hand-pointer mr-1"></i> Arraste para o lado</p>
+                </div>
+                
+                <div class="flex space-x-3 mt-4 md:mt-0">
+                    <button onclick="scrollSlider('slider-videos', 'left')" class="w-12 h-12 rounded-full border border-zinc-700 bg-white/5 text-white flex items-center justify-center hover:bg-[#8A2BE2] hover:border-[#8A2BE2] transition-all focus:outline-none shadow-md backdrop-blur-md">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button onclick="scrollSlider('slider-videos', 'right')" class="w-12 h-12 rounded-full border border-zinc-700 bg-white/5 text-white flex items-center justify-center hover:bg-[#8A2BE2] hover:border-[#8A2BE2] transition-all focus:outline-none shadow-md backdrop-blur-md">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Slider Container Vídeos -->
+            <!-- SEM CLASSE REVEAL AQUI PARA EVITAR O EFEITO DE SUMIR -->
+            <div id="slider-videos" class="slider-container flex overflow-x-auto space-x-6 pb-8 snap-x snap-mandatory cursor-grab active:cursor-grabbing select-none">
+                
+                <!-- Video Item Template -->
+                <!-- Item 1 -->
+                <div class="portfolio-item relative group overflow-hidden rounded-xl min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900/50 border border-white/10 shadow-xl transition-all hover:border-[#8A2BE2]/50 glass-card"
                      data-id="UqOTLXkvsak">
-                    
-                    <div class="video-placeholder w-full h-[500px] bg-black relative flex items-center justify-center cursor-pointer group pointer-events-none">
-                        <img src="https://img.youtube.com/vi/UqOTLXkvsak/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Capa">
-                        <div class="w-16 h-16 bg-primary-color rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform">
+                    <!-- Removed opacity-60 -->
+                    <div class="video-placeholder w-full h-[500px] bg-black/20 relative flex items-center justify-center cursor-pointer group pointer-events-none">
+                        <img src="https://img.youtube.com/vi/UqOTLXkvsak/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Capa">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                        <div class="w-16 h-16 bg-[#8A2BE2] rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(138,43,226,0.6)]">
                             <i class="fas fa-play text-white text-xl ml-1"></i>
                         </div>
-                        <p class="absolute bottom-4 text-white font-bold text-sm tracking-widest z-10">CLIQUE PARA ASSISTIR</p>
+                        <p class="absolute bottom-6 text-white font-bold text-xs tracking-[0.2em] z-10 border border-white/30 px-3 py-1 rounded-full backdrop-blur-sm">ASSISTIR</p>
                     </div>
                 </div>
 
-                <!-- Item 2: Video vUSSiyW7NTI -->
-                <div class="portfolio-item relative group overflow-hidden rounded-sm min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900 border border-zinc-800"
+                <!-- Item 2 -->
+                <div class="portfolio-item relative group overflow-hidden rounded-xl min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900/50 border border-white/10 shadow-xl transition-all hover:border-[#8A2BE2]/50 glass-card"
                      data-id="vUSSiyW7NTI">
-                    
-                    <div class="video-placeholder w-full h-[500px] bg-black relative flex items-center justify-center cursor-pointer group pointer-events-none">
-                        <img src="https://img.youtube.com/vi/vUSSiyW7NTI/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Capa">
-                        <div class="w-16 h-16 bg-primary-color rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform">
+                    <div class="video-placeholder w-full h-[500px] bg-black/20 relative flex items-center justify-center cursor-pointer group pointer-events-none">
+                        <img src="https://img.youtube.com/vi/vUSSiyW7NTI/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Capa">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                        <div class="w-16 h-16 bg-[#8A2BE2] rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(138,43,226,0.6)]">
                             <i class="fas fa-play text-white text-xl ml-1"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- Item 3: Video mDVlFFU_pWA -->
-                <div class="portfolio-item relative group overflow-hidden rounded-sm min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900 border border-zinc-800"
+                <!-- Item 3 -->
+                <div class="portfolio-item relative group overflow-hidden rounded-xl min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900/50 border border-white/10 shadow-xl transition-all hover:border-[#8A2BE2]/50 glass-card"
                      data-id="mDVlFFU_pWA">
-                    
-                    <div class="video-placeholder w-full h-[500px] bg-black relative flex items-center justify-center cursor-pointer group pointer-events-none">
-                        <img src="https://img.youtube.com/vi/mDVlFFU_pWA/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Capa">
-                        <div class="w-16 h-16 bg-primary-color rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform">
+                    <div class="video-placeholder w-full h-[500px] bg-black/20 relative flex items-center justify-center cursor-pointer group pointer-events-none">
+                        <img src="https://img.youtube.com/vi/mDVlFFU_pWA/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Capa">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                        <div class="w-16 h-16 bg-[#8A2BE2] rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(138,43,226,0.6)]">
                             <i class="fas fa-play text-white text-xl ml-1"></i>
                         </div>
                     </div>
                 </div>
-                <!-- Item 5: Video nhs0Fd4z1NI (Atualizado) -->
-                <div class="portfolio-item relative group overflow-hidden rounded-sm min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900 border border-zinc-800"
+
+                <!-- Item 4 -->
+                <div class="portfolio-item relative group overflow-hidden rounded-xl min-w-[75vw] md:min-w-[280px] snap-center shrink-0 bg-zinc-900/50 border border-white/10 shadow-xl transition-all hover:border-[#8A2BE2]/50 glass-card"
                      data-id="nhs0Fd4z1NI">
-                    
-                    <div class="video-placeholder w-full h-[500px] bg-black relative flex items-center justify-center cursor-pointer group pointer-events-none">
-                        <img src="https://img.youtube.com/vi/nhs0Fd4z1NI/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Capa">
-                        <div class="w-16 h-16 bg-primary-color rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform">
+                    <div class="video-placeholder w-full h-[500px] bg-black/20 relative flex items-center justify-center cursor-pointer group pointer-events-none">
+                        <img src="https://img.youtube.com/vi/nhs0Fd4z1NI/maxresdefault.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Capa">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                        <div class="w-16 h-16 bg-[#8A2BE2] rounded-full flex items-center justify-center z-10 play-btn-pulse group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(138,43,226,0.6)]">
                             <i class="fas fa-play text-white text-xl ml-1"></i>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="text-center mt-8 md:hidden">
-                 <span class="text-sm font-bold border-b border-primary-color pb-1 text-primary-color">Arraste para ver mais</span>
-            </div>
         </div>
     </section>
 
     <!-- CTA Banner -->
-    <section class="py-16 bg-zinc-900 border-t border-b border-zinc-800">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-2xl md:text-4xl font-bold mb-4">Tem um projeto em mente?</h2>
-            <p class="text-gray-400 mb-8">Vamos tomar um café e discutir como transformar sua ideia em um vídeo incrível.</p>
-            <a href="https://wa.me/5573981579948" target="_blank" class="inline-flex items-center bg-green-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-green-500 transition-all transform hover:scale-105 shadow-lg">
-                <i class="fab fa-whatsapp mr-2"></i> Falar no WhatsApp
+    <section class="py-20 bg-zinc-900/60 backdrop-blur-md border-t border-b border-white/5 relative">
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">Tem um projeto em mente?</h2>
+            <p class="text-gray-300 mb-10 text-lg font-light">Vamos tomar um café (virtual ou presencial) e discutir como transformar sua ideia em um vídeo ou site incrível.</p>
+            <a href="https://wa.me/5573981579948" target="_blank" class="inline-flex items-center bg-green-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-500 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.4)]">
+                <i class="fab fa-whatsapp mr-3 text-2xl"></i> Falar no WhatsApp
             </a>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contato" class="py-20 bg-[#0a0a0a]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <span class="text-primary-color font-bold tracking-wider uppercase text-sm">Contato</span>
-                    <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white mb-6">Vamos Trabalhar Juntos?</h2>
-                    <p class="text-gray-400 mb-8 leading-relaxed">
+    <section id="contato" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="reveal">
+                    <span class="text-[#8A2BE2] font-bold tracking-wider uppercase text-sm">Contato</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-2 text-white mb-6">Vamos Trabalhar Juntos?</h2>
+                    <p class="text-gray-300 mb-10 leading-relaxed text-lg font-light">
                         Preencha o formulário ou entre em contato direto pelas redes sociais. Respondo geralmente em até 24 horas.
                     </p>
                     
-                    <div class="space-y-6">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-primary-color shrink-0">
-                                <i class="fas fa-envelope"></i>
+                    <div class="space-y-8">
+                        <div class="flex items-start space-x-5 group">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#8A2BE2] shrink-0 group-hover:border-[#8A2BE2] transition-colors shadow-lg backdrop-blur-sm">
+                                <i class="fas fa-envelope text-xl"></i>
                             </div>
                             <div>
-                                <h4 class="text-white font-bold">Email</h4>
-                                <p class="text-gray-400 text-sm">vieiraaudiovisual05@gmail.com</p>
+                                <h4 class="text-white font-bold text-lg mb-1">Email</h4>
+                                <p class="text-gray-400">vieiraaudiovisual05@gmail.com</p>
                             </div>
                         </div>
                         
-                        <div class="pt-6">
-                            <h4 class="text-white font-bold mb-4">Siga-me</h4>
+                        <div class="pt-8 border-t border-white/10">
+                            <h4 class="text-white font-bold mb-6">Siga-me</h4>
                             <div class="flex space-x-4">
-                                <a href="https://instagram.com/tiagovieira.films" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-primary-color hover:text-black transition-all"><i class="fab fa-instagram"></i></a>
-                                <a href="https://www.youtube.com/@TiagoVieiraVideomaker" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-primary-color hover:text-black transition-all"><i class="fab fa-youtube"></i></a>
-                                <a href="https://www.linkedin.com/in/tiago-vieira-aa63b3268" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-primary-color hover:text-black transition-all"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://instagram.com/tiagovieira.films" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#8A2BE2] hover:text-white hover:border-[#8A2BE2] transition-all duration-300 shadow-lg hover:shadow-purple-500/30 hover:-translate-y-1 backdrop-blur-sm"><i class="fab fa-instagram text-xl"></i></a>
+                                <a href="https://www.youtube.com/@TiagoVieiraVideomaker" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#8A2BE2] hover:text-white hover:border-[#8A2BE2] transition-all duration-300 shadow-lg hover:shadow-purple-500/30 hover:-translate-y-1 backdrop-blur-sm"><i class="fab fa-youtube text-xl"></i></a>
+                                <a href="https://www.linkedin.com/in/tiago-vieira-aa63b3268" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#8A2BE2] hover:text-white hover:border-[#8A2BE2] transition-all duration-300 shadow-lg hover:shadow-purple-500/30 hover:-translate-y-1 backdrop-blur-sm"><i class="fab fa-linkedin-in text-xl"></i></a>
                             </div>
                         </div>
                     </div>
@@ -381,31 +463,32 @@
                 <form 
                     action="https://formspree.io/f/mdkqdgyo" 
                     method="POST" 
-                    class="bg-zinc-900 p-8 rounded-sm shadow-lg border border-zinc-800" 
+                    class="bg-white/5 backdrop-blur-xl p-10 rounded-2xl shadow-2xl border border-white/10 reveal delay-200" 
                     id="contact-form"
                 >
                     <div class="mb-6">
-                        <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Nome</label>
-                        <input type="text" id="name" name="name" required class="w-full bg-black border border-zinc-700 text-white px-4 py-3 rounded focus:outline-none focus:border-primary-color focus:ring-1 focus:ring-primary-color transition-colors" placeholder="Seu nome">
+                        <label for="name" class="block text-sm font-bold text-gray-400 mb-2">Nome</label>
+                        <input type="text" id="name" name="name" required class="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-lg focus:outline-none focus:border-[#8A2BE2] focus:ring-1 focus:ring-[#8A2BE2] transition-all" placeholder="Seu nome">
                     </div>
                     <div class="mb-6">
-                        <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                        <input type="email" id="email" name="email" required class="w-full bg-black border border-zinc-700 text-white px-4 py-3 rounded focus:outline-none focus:border-primary-color focus:ring-1 focus:ring-primary-color transition-colors" placeholder="seu@email.com">
+                        <label for="email" class="block text-sm font-bold text-gray-400 mb-2">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-lg focus:outline-none focus:border-[#8A2BE2] focus:ring-1 focus:ring-[#8A2BE2] transition-all" placeholder="seu@email.com">
                     </div>
                     <div class="mb-6">
-                        <label for="service" class="block text-sm font-medium text-gray-400 mb-2">Interesse</label>
-                        <select id="service" name="service" class="w-full bg-black border border-zinc-700 text-white px-4 py-3 rounded focus:outline-none focus:border-primary-color focus:ring-1 focus:ring-primary-color transition-colors">
+                        <label for="service" class="block text-sm font-bold text-gray-400 mb-2">Interesse</label>
+                        <select id="service" name="service" class="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-lg focus:outline-none focus:border-[#8A2BE2] focus:ring-1 focus:ring-[#8A2BE2] transition-all appearance-none cursor-pointer">
+                            <option value="Criação de Sites">Criação de Sites/Landing Pages</option>
                             <option value="Cobertura de Eventos">Cobertura de Eventos</option>
                             <option value="Vídeo Institucional">Vídeo Institucional</option>
                             <option value="Social Media">Social Media</option>
                             <option value="Outro">Outro</option>
                         </select>
                     </div>
-                    <div class="mb-6">
-                        <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Mensagem</label>
-                        <textarea id="message" name="message" required rows="4" class="w-full bg-black border border-zinc-700 text-white px-4 py-3 rounded focus:outline-none focus:border-primary-color focus:ring-1 focus:ring-primary-color transition-colors" placeholder="Conte um pouco sobre seu projeto..."></textarea>
+                    <div class="mb-8">
+                        <label for="message" class="block text-sm font-bold text-gray-400 mb-2">Mensagem</label>
+                        <textarea id="message" name="message" required rows="4" class="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-lg focus:outline-none focus:border-[#8A2BE2] focus:ring-1 focus:ring-[#8A2BE2] transition-all" placeholder="Conte um pouco sobre seu projeto..."></textarea>
                     </div>
-                    <button type="submit" id="submit-btn" class="w-full bg-primary-color text-white font-bold py-3 px-6 rounded hover:bg-[#6A1DAD] transition-colors uppercase tracking-wider">Enviar Mensagem</button>
+                    <button type="submit" id="submit-btn" class="w-full bg-[#8A2BE2] text-white font-bold py-4 px-6 rounded-lg hover:bg-purple-700 transition-all uppercase tracking-wider shadow-lg hover:shadow-purple-500/40 transform hover:-translate-y-1">Enviar Mensagem</button>
                     <p id="form-status" class="text-center mt-4 text-sm hidden"></p>
                 </form>
             </div>
@@ -413,12 +496,12 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black py-8 border-t border-zinc-900">
+    <footer class="bg-black/80 backdrop-blur-md py-10 border-t border-white/5 relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-500 text-sm mb-4 md:mb-0">&copy; 2025 Tiago Vieira Videomaker. Todos os direitos reservados.</p>
-            <div class="flex space-x-6 text-gray-500 text-sm">
-                <a href="#" class="hover:text-primary-color transition-colors">Privacidade</a>
-                <a href="#" class="hover:text-primary-color transition-colors">Termos</a>
+            <p class="text-gray-500 text-sm mb-4 md:mb-0">&copy; 2025 Tiago Vieira. Todos os direitos reservados.</p>
+            <div class="flex space-x-8 text-gray-500 text-sm">
+                <a href="#" class="hover:text-[#8A2BE2] transition-colors">Privacidade</a>
+                <a href="#" class="hover:text-[#8A2BE2] transition-colors">Termos</a>
             </div>
         </div>
     </footer>
@@ -434,13 +517,28 @@
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-                navbar.classList.remove('py-4');
+                navbar.classList.add('bg-black/90', 'shadow-lg', 'border-b-[#8A2BE2]/30');
+                navbar.classList.remove('bg-black/70');
             } else {
-                navbar.classList.remove('shadow-lg');
-                // navbar.classList.add('py-4'); 
+                navbar.classList.remove('bg-black/90', 'shadow-lg', 'border-b-[#8A2BE2]/30');
+                navbar.classList.add('bg-black/70');
             }
         });
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
 
         // Form Handling with Formspree AJAX
         const form = document.getElementById("contact-form");
@@ -452,7 +550,6 @@
             const originalBtnText = btn.innerText;
             const data = new FormData(event.target);
 
-            // UI Loading
             btn.innerText = 'Enviando...';
             btn.disabled = true;
             btn.classList.add('opacity-70', 'cursor-not-allowed');
@@ -460,32 +557,24 @@
             fetch(event.target.action, {
                 method: form.method,
                 body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             }).then(response => {
                 if (response.ok) {
-                    // Success UI
                     status.innerHTML = "Obrigado! Sua mensagem foi enviada com sucesso.";
                     status.classList.remove('hidden', 'text-red-500');
-                    status.classList.add('text-green-500');
-                    
+                    status.classList.add('text-green-500', 'font-bold');
                     btn.innerText = 'Mensagem Enviada!';
-                    btn.classList.remove('bg-primary-color');
+                    btn.classList.remove('bg-[#8A2BE2]');
                     btn.classList.add('bg-green-600');
-                    
                     form.reset();
-                    
-                    // Reset button after 3 seconds
                     setTimeout(() => {
                         btn.innerText = originalBtnText;
-                        btn.classList.add('bg-primary-color');
+                        btn.classList.add('bg-[#8A2BE2]');
                         btn.classList.remove('bg-green-600');
                         btn.disabled = false;
                         btn.classList.remove('opacity-70', 'cursor-not-allowed');
                         status.classList.add('hidden');
                     }, 5000);
-
                 } else {
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
@@ -495,7 +584,6 @@
                         }
                         status.classList.remove('hidden', 'text-green-500');
                         status.classList.add('text-red-500');
-                        
                         btn.innerText = originalBtnText;
                         btn.disabled = false;
                         btn.classList.remove('opacity-70', 'cursor-not-allowed');
@@ -505,7 +593,6 @@
                 status.innerHTML = "Ops! Ocorreu um erro de conexão.";
                 status.classList.remove('hidden', 'text-green-500');
                 status.classList.add('text-red-500');
-                
                 btn.innerText = originalBtnText;
                 btn.disabled = false;
                 btn.classList.remove('opacity-70', 'cursor-not-allowed');
@@ -515,11 +602,10 @@
 
         // --- Portfolio Navigation & Logic ---
 
-        // 1. Button Scroll
-        function scrollPortfolio(direction) {
-            const slider = document.getElementById('portfolio-slider');
-            const scrollAmount = 280; // Largura do card
-            
+        function scrollSlider(sliderId, direction) {
+            const slider = document.getElementById(sliderId);
+            if (!slider) return;
+            const scrollAmount = 300; 
             if (direction === 'left') {
                 slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
             } else {
@@ -527,29 +613,22 @@
             }
         }
 
-        // 2. Slider Logic + Video Loader
-        const slider = document.getElementById('portfolio-slider');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        let isDragging = false; 
-
-        // Adiciona listeners para os itens do portfólio (Click para abrir vídeo)
-        // Isso remove a dependência do atributo onclick no HTML
+        // Video Click Loader Logic
         document.querySelectorAll('.portfolio-item').forEach(item => {
             item.addEventListener('click', function(e) {
-                // Se foi um arrastar (drag), não abre o vídeo
-                if (isDragging) return;
+                // If dragged, do not open
+                if (this.dataset.isDragging === 'true') return;
+                // If it's a link (website portfolio), do nothing and let the link work
+                if (this.tagName === 'A') return;
 
                 const videoId = this.getAttribute('data-id');
                 if (!videoId) return;
 
-                // Cria o iframe
-                // Usando www.youtube.com com autoplay=1 (a interação do clique permite autoplay)
+                // Load standard YouTube embed which usually allows playback on click
                 this.innerHTML = `
                     <iframe 
                         class="w-full h-[500px]" 
-                        src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&origin=${window.location.origin}" 
                         title="YouTube video player" 
                         frameborder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -559,47 +638,52 @@
             });
         });
 
-        slider.addEventListener('mousedown', (e) => {
-            // Se clicar no iframe, o navegador lida com isso, mas se for na borda/padding:
-            if(e.target.tagName === 'IFRAME') return;
+        // Drag Logic
+        const sliders = document.querySelectorAll('.slider-container');
 
-            isDown = true;
-            isDragging = false; // Reset
-            slider.classList.add('active'); 
-            slider.classList.remove('cursor-grab', 'snap-x', 'snap-mandatory'); 
-            slider.classList.add('cursor-grabbing');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
+        sliders.forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let isDragging = false; 
+
+            slider.addEventListener('mousedown', (e) => {
+                if(e.target.tagName === 'IFRAME') return;
+                isDown = true;
+                isDragging = false; 
+                slider.classList.add('active'); 
+                slider.classList.remove('cursor-grab', 'snap-x', 'snap-mandatory'); 
+                slider.classList.add('cursor-grabbing');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            const stopDragging = () => {
+                isDown = false;
+                slider.classList.remove('cursor-grabbing', 'active');
+                slider.classList.add('cursor-grab', 'snap-x', 'snap-mandatory');
+                setTimeout(() => {
+                    const items = slider.querySelectorAll('.portfolio-item');
+                    items.forEach(item => item.dataset.isDragging = 'false');
+                }, 50);
+            };
+
+            slider.addEventListener('mouseleave', stopDragging);
+            slider.addEventListener('mouseup', stopDragging);
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; 
+                if (Math.abs(walk) > 5) {
+                    isDragging = true;
+                    const items = slider.querySelectorAll('.portfolio-item');
+                    items.forEach(item => item.dataset.isDragging = 'true');
+                }
+                slider.scrollLeft = scrollLeft - walk;
+            });
         });
-
-        const stopDragging = () => {
-            isDown = false;
-            slider.classList.remove('cursor-grabbing', 'active');
-            slider.classList.add('cursor-grab', 'snap-x', 'snap-mandatory');
-            
-            // Mantém isDragging true por um instante curto para evitar clique acidental logo após soltar
-            setTimeout(() => {
-                isDragging = false;
-            }, 100);
-        };
-
-        slider.addEventListener('mouseleave', stopDragging);
-        slider.addEventListener('mouseup', stopDragging);
-
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2; 
-            
-            // Sensibilidade: moveu mais que 5 pixels = Drag
-            if (Math.abs(walk) > 5) {
-                isDragging = true;
-            }
-
-            slider.scrollLeft = scrollLeft - walk;
-        });
-
     </script>
 </body>
 </html>
